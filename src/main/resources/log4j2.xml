@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+OFF     关闭：最高级别，不打印日志。
+FATAL   致命：指明非常严重的可能会导致应用终止执行错误事件。
+ERROR   错误：指明错误事件，但应用可能还能继续运行。
+WARN    警告：指明可能潜在的危险状况。
+INFO    信息：指明描述信息，从粗粒度上描述了应用运行过程。
+DEBUG   调试：指明细致的事件信息，对调试应用最有用。
+TRACE   跟踪：指明程序运行轨迹，比DEBUG级别的粒度更细。
+ALL     所有：所有日志级别，包括定制级别。
+
+日志优先级别标准顺序为： ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF
+
+如果日志设置为L,一个级别为P的输出日志只有当P >= L时日志才会输出。
+
+即如果日志级别L设置INFO，那么INFO、WARN、ERROR、FATAL级别的信息会打印出来，DEBUG、TRACE就不会被打印出来。
+即只有大于等于定义的日志级别的信息才会显示出来。
+
+-->
+<Configuration status="fatal">
+  <Properties>
+    <Property name="baseDir" value="${sys:user.home}/logs"/>
+  </Properties>
+
+  <Appenders>
+
+    <!-- 控制台日志输出 -->
+    <Console name="Console" target="SYSTEM_OUT">
+      <!--
+      控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）
+      即输出INFO、WARN、ERROR、FATAL级别的日志，info以下级别的DEBUG、TRACE日志拒绝
+       -->
+      <ThresholdFilter level="info" onMatch="ACCEPT"
+        onMismatch="DENY"/>
+      <PatternLayout
+        pattern="[%d{MM:dd HH:mm:ss.SSS}] [%level] [%logger{36}] - %msg%n"/>
+    </Console>
+
+    <!--debug级别日志文件输出-->
+    <RollingFile name="debug_appender" fileName="${baseDir}/debug.log"
+      filePattern="${baseDir}/debug_%i.log.%d{yyyy-MM-dd}">
+      <!-- 过滤器 -->
+      <Filters>
+        <!-- 限制日志级别在debug及以上在info以下 -->
+        <ThresholdFilter level="debug"/>
+        <ThresholdFilter level="info" onMatch="DENY" onMismatch="NEUTRAL"/>
+      </Filters>
+      <!-- 日志格式 -->
+      <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+      <!-- 策略 -->
+      <Policies>
+        <!-- 每隔一天转存 -->
+        <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+        <!-- 文件大小 -->
+        <SizeBasedTriggeringPolicy size="100 MB"/>
+      </Policies>
+    </RollingFile>
+
+    <!-- info级别日志文件输出 -->
+    <RollingFile name="info_appender" fileName="${baseDir}/info.log"
+      filePattern="${baseDir}/info_%i.log.%d{yyyy-MM-dd}">
+      <!-- 过滤器 -->
+      <Filters>
+        <!-- 限制日志级别在info及以上在error以下 -->
+        <ThresholdFilter level="info"/>
+        <ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
+      </Filters>
+      <!-- 日志格式 -->
+      <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+      <!-- 策略 -->
+      <Policies>
+        <!-- 每隔一天转存 -->
+        <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+        <!-- 文件大小 -->
+        <SizeBasedTriggeringPolicy size="100 MB"/>
+      </Policies>
+    </RollingFile>
+
+    <!-- error级别日志文件输出 -->
+    <RollingFile name="error_appender" fileName="${baseDir}/error.log"
+      filePattern="${baseDir}/error_%i.log.%d{yyyy-MM-dd}">
+      <!-- 过滤器 -->
+      <Filters>
+        <!-- 限制日志级别在error及以上 -->
+        <ThresholdFilter level="error"/>
+      </Filters>
+      <!-- 日志格式 -->
+      <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+      <Policies>
+        <!-- 每隔一天转存 -->
+        <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+        <!-- 文件大小 -->
+        <SizeBasedTriggeringPolicy size="100 MB"/>
+      </Policies>
+    </RollingFile>
+  </Appenders>
+  <Loggers>
+    <Root level="debug">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="debug_appender"/>
+      <AppenderRef ref="info_appender"/>
+      <AppenderRef ref="error_appender"/>
+    </Root>
+
+  </Loggers>
+</Configuration>

@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cigarette.mapper.UserInfoMapper">
+    <resultMap id="BaseResultMap" type="com.cigarette.domain.UserInfo">
+        <!--@mbg.generated-->
+        <!--@Table mc_user_info-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="tel" jdbcType="VARCHAR" property="tel"/>
+        <result column="role" jdbcType="INTEGER" property="role"/>
+        <result column="is_disabled" jdbcType="BOOLEAN" property="isDisabled"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, `name`, tel, `role`, is_disabled, gmt_create, gmt_modify
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from mc_user_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete
+        from mc_user_info
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cigarette.domain.UserInfo"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into mc_user_info (`name`, tel, `role`,
+                                  is_disabled, gmt_create, gmt_modify)
+        values (#{name,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER},
+                #{isDisabled,jdbcType=BOOLEAN}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.cigarette.domain.UserInfo"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into mc_user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="tel != null">
+                tel,
+            </if>
+            <if test="role != null">
+                `role`,
+            </if>
+            <if test="isDisabled != null">
+                is_disabled,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModify != null">
+                gmt_modify,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="tel != null">
+                #{tel,jdbcType=VARCHAR},
+            </if>
+            <if test="role != null">
+                #{role,jdbcType=INTEGER},
+            </if>
+            <if test="isDisabled != null">
+                #{isDisabled,jdbcType=BOOLEAN},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cigarette.domain.UserInfo">
+        <!--@mbg.generated-->
+        update mc_user_info
+        <set>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="tel != null">
+                tel = #{tel,jdbcType=VARCHAR},
+            </if>
+            <if test="role != null">
+                `role` = #{role,jdbcType=INTEGER},
+            </if>
+            <if test="isDisabled != null">
+                is_disabled = #{isDisabled,jdbcType=BOOLEAN},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cigarette.domain.UserInfo">
+        <!--@mbg.generated-->
+        update mc_user_info
+        set `name`      = #{name,jdbcType=VARCHAR},
+            tel         = #{tel,jdbcType=VARCHAR},
+            `role`      = #{role,jdbcType=INTEGER},
+            is_disabled = #{isDisabled,jdbcType=BOOLEAN},
+            gmt_create  = #{gmtCreate,jdbcType=TIMESTAMP},
+            gmt_modify  = #{gmtModify,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateBatch" parameterType="java.util.List">
+        <!--@mbg.generated-->
+        update mc_user_info
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="`name` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=INTEGER} then #{item.name,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="tel = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=INTEGER} then #{item.tel,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="`role` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=INTEGER} then #{item.role,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="is_disabled = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=INTEGER} then #{item.isDisabled,jdbcType=BOOLEAN}
+                </foreach>
+            </trim>
+            <trim prefix="gmt_create = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=INTEGER} then #{item.gmtCreate,jdbcType=TIMESTAMP}
+                </foreach>
+            </trim>
+            <trim prefix="gmt_modify = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=INTEGER} then #{item.gmtModify,jdbcType=TIMESTAMP}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach close=")" collection="list" item="item" open="(" separator=", ">
+            #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into mc_user_info
+                (`name`, tel, `role`, is_disabled, gmt_create, gmt_modify)
+                values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.name,jdbcType=VARCHAR}, #{item.tel,jdbcType=VARCHAR}, #{item.role,jdbcType=INTEGER},
+             #{item.isDisabled,jdbcType=BOOLEAN}, #{item.gmtCreate,jdbcType=TIMESTAMP},
+             #{item.gmtModify,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+    <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.cigarette.domain.UserInfo"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into mc_user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            `name`,
+            tel,
+            `role`,
+            is_disabled,
+            gmt_create,
+            gmt_modify,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            #{name,jdbcType=VARCHAR},
+            #{tel,jdbcType=VARCHAR},
+            #{role,jdbcType=INTEGER},
+            #{isDisabled,jdbcType=BOOLEAN},
+            #{gmtCreate,jdbcType=TIMESTAMP},
+            #{gmtModify,jdbcType=TIMESTAMP},
+        </trim>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                id = #{id,jdbcType=INTEGER},
+            </if>
+            `name`      = #{name,jdbcType=VARCHAR},
+            tel         = #{tel,jdbcType=VARCHAR},
+            `role`      = #{role,jdbcType=INTEGER},
+            is_disabled = #{isDisabled,jdbcType=BOOLEAN},
+            gmt_create  = #{gmtCreate,jdbcType=TIMESTAMP},
+            gmt_modify  = #{gmtModify,jdbcType=TIMESTAMP},
+        </trim>
+    </insert>
+    <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="com.cigarette.domain.UserInfo"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into mc_user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="tel != null">
+                tel,
+            </if>
+            <if test="role != null">
+                `role`,
+            </if>
+            <if test="isDisabled != null">
+                is_disabled,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModify != null">
+                gmt_modify,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="tel != null">
+                #{tel,jdbcType=VARCHAR},
+            </if>
+            <if test="role != null">
+                #{role,jdbcType=INTEGER},
+            </if>
+            <if test="isDisabled != null">
+                #{isDisabled,jdbcType=BOOLEAN},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                id = #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="tel != null">
+                tel = #{tel,jdbcType=VARCHAR},
+            </if>
+            <if test="role != null">
+                `role` = #{role,jdbcType=INTEGER},
+            </if>
+            <if test="isDisabled != null">
+                is_disabled = #{isDisabled,jdbcType=BOOLEAN},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="selectEnabledInfoByTel" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mc_user_info
+        where is_disabled = 0
+          and tel = #{tel,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectEnabledInfoIdByTel" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select id
+        from mc_user_info
+        where is_disabled = 0
+          and tel = #{tel,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectEnabledInfoByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mc_user_info
+        where is_disabled = 0
+          and id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectEnabledInfoIdByTels" resultType="java.lang.Integer" parameterType="java.util.List">
+        select id
+        from mc_user_info
+                where is_disabled = 0
+                  and tel in
+        <foreach collection="list" item="tel" separator="," open="(" close=")" index="">
+            #{tel,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+
+    <select id="selectEnabledInfoByTels" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mc_user_info
+                where is_disabled = 0
+                  and tel in
+        <foreach collection="list" item="tel" separator="," open="(" close=")" index="">
+            #{tel,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+
+    <select id="selectEnabledInfoIdByPrimaryKeys" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select id
+        from mc_user_info
+                where is_disabled = 0
+                  and id in
+        <foreach collection="list" item="id" separator="," open="(" close=")" index="">
+            #{id,jdbcType=INTEGER}
+        </foreach>
+    </select>
+
+    <select id="selectEnabledInfoByPrimaryKeys" resultType="com.cigarette.domain.UserInfo" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from mc_user_info
+                where is_disabled = 0
+                  and id in
+        <foreach collection="list" item="id" separator="," open="(" close=")" index="">
+            #{id,jdbcType=INTEGER}
+        </foreach>
+    </select>
+
+    <select id="selectEnabledSellers" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mc_user_info
+        where is_disabled = 0 and role = 2;
+    </select>
+</mapper>

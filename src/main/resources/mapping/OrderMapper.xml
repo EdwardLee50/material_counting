@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cigarette.mapper.OrderMapper">
+    <resultMap id="BaseResultMap" type="com.cigarette.domain.Order">
+        <!--@mbg.generated-->
+        <!--@Table mc_order-->
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="material" jdbcType="VARCHAR" property="material"/>
+        <result column="unit" jdbcType="VARCHAR" property="unit"/>
+        <result column="number" jdbcType="INTEGER" property="number"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="shop_seller_id" jdbcType="INTEGER" property="shopSellerId"/>
+        <result column="employee_id" jdbcType="INTEGER" property="employeeId"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, material, unit, `number`, `status`, description, shop_seller_id, employee_id,
+        gmt_create, gmt_modify
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from mc_order
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        <!--@mbg.generated-->
+        delete
+        from mc_order
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.cigarette.domain.Order">
+        <!--@mbg.generated-->
+        insert into mc_order (id, material, unit,
+                              `number`, `status`, description,
+                              shop_seller_id, employee_id, gmt_create,
+                              gmt_modify)
+        values (#{id,jdbcType=VARCHAR}, #{material,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR},
+                #{number,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR},
+                #{shopSellerId,jdbcType=INTEGER}, #{employeeId,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP},
+                #{gmtModify,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.cigarette.domain.Order">
+        <!--@mbg.generated-->
+        insert into mc_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="material != null">
+                material,
+            </if>
+            <if test="unit != null">
+                unit,
+            </if>
+            <if test="number != null">
+                `number`,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="shopSellerId != null">
+                shop_seller_id,
+            </if>
+            <if test="employeeId != null">
+                employee_id,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModify != null">
+                gmt_modify,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="material != null">
+                #{material,jdbcType=VARCHAR},
+            </if>
+            <if test="unit != null">
+                #{unit,jdbcType=VARCHAR},
+            </if>
+            <if test="number != null">
+                #{number,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="shopSellerId != null">
+                #{shopSellerId,jdbcType=INTEGER},
+            </if>
+            <if test="employeeId != null">
+                #{employeeId,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cigarette.domain.Order">
+        <!--@mbg.generated-->
+        update mc_order
+        <set>
+            <if test="material != null">
+                material = #{material,jdbcType=VARCHAR},
+            </if>
+            <if test="unit != null">
+                unit = #{unit,jdbcType=VARCHAR},
+            </if>
+            <if test="number != null">
+                `number` = #{number,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                `status` = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="shopSellerId != null">
+                shop_seller_id = #{shopSellerId,jdbcType=INTEGER},
+            </if>
+            <if test="employeeId != null">
+                employee_id = #{employeeId,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cigarette.domain.Order">
+        <!--@mbg.generated-->
+        update mc_order
+        set material       = #{material,jdbcType=VARCHAR},
+            unit           = #{unit,jdbcType=VARCHAR},
+            `number`       = #{number,jdbcType=INTEGER},
+            `status`       = #{status,jdbcType=INTEGER},
+            description    = #{description,jdbcType=VARCHAR},
+            shop_seller_id = #{shopSellerId,jdbcType=INTEGER},
+            employee_id    = #{employeeId,jdbcType=INTEGER},
+            gmt_create     = #{gmtCreate,jdbcType=TIMESTAMP},
+            gmt_modify     = #{gmtModify,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateBatch" parameterType="java.util.List">
+        <!--@mbg.generated-->
+        update mc_order
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="material = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=VARCHAR} then #{item.material,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="unit = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=VARCHAR} then #{item.unit,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="`number` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=VARCHAR} then #{item.number,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="`status` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=VARCHAR} then #{item.status,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="description = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=VARCHAR} then #{item.description,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="shop_seller_id = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=VARCHAR} then #{item.shopSellerId,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="employee_id = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=VARCHAR} then #{item.employeeId,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="gmt_create = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=VARCHAR} then #{item.gmtCreate,jdbcType=TIMESTAMP}
+                </foreach>
+            </trim>
+            <trim prefix="gmt_modify = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=VARCHAR} then #{item.gmtModify,jdbcType=TIMESTAMP}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach close=")" collection="list" item="item" open="(" separator=", ">
+            #{item.id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+    <update id="updateBatchSelective" parameterType="java.util.List">
+        <!--@mbg.generated-->
+        update mc_order
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="material = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.material != null">
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.material,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="unit = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.unit != null">
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.unit,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="`number` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.number != null">
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.number,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="`status` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.status != null">
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.status,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="description = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.description != null">
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.description,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="shop_seller_id = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.shopSellerId != null">
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.shopSellerId,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="employee_id = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.employeeId != null">
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.employeeId,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="gmt_create = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.gmtCreate != null">
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.gmtCreate,jdbcType=TIMESTAMP}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="gmt_modify = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.gmtModify != null">
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.gmtModify,jdbcType=TIMESTAMP}
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach close=")" collection="list" item="item" open="(" separator=", ">
+            #{item.id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+    <insert id="batchInsert" parameterType="map">
+        <!--@mbg.generated-->
+        insert into mc_order
+                (id, material, unit, `number`, `status`, description, shop_seller_id, employee_id,
+                 gmt_create, gmt_modify)
+                values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.material,jdbcType=VARCHAR}, #{item.unit,jdbcType=VARCHAR},
+             #{item.number,jdbcType=INTEGER}, #{item.status,jdbcType=INTEGER}, #{item.description,jdbcType=VARCHAR},
+             #{item.shopSellerId,jdbcType=INTEGER}, #{item.employeeId,jdbcType=INTEGER},
+             #{item.gmtCreate,jdbcType=TIMESTAMP},
+             #{item.gmtModify,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+    <insert id="insertOrUpdate" parameterType="com.cigarette.domain.Order">
+        <!--@mbg.generated-->
+        insert into mc_order
+                (id, material, unit, `number`, `status`, description, shop_seller_id, employee_id,
+                 gmt_create, gmt_modify)
+        values (#{id,jdbcType=VARCHAR}, #{material,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR},
+                #{number,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR},
+                #{shopSellerId,jdbcType=INTEGER}, #{employeeId,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP},
+                #{gmtModify,jdbcType=TIMESTAMP})
+        on duplicate key update id             = #{id,jdbcType=VARCHAR},
+                                material       = #{material,jdbcType=VARCHAR},
+                                unit           = #{unit,jdbcType=VARCHAR},
+                                `number`       = #{number,jdbcType=INTEGER},
+                                `status`       = #{status,jdbcType=INTEGER},
+                                description    = #{description,jdbcType=VARCHAR},
+                                shop_seller_id = #{shopSellerId,jdbcType=INTEGER},
+                                employee_id    = #{employeeId,jdbcType=INTEGER},
+                                gmt_create     = #{gmtCreate,jdbcType=TIMESTAMP},
+                                gmt_modify     = #{gmtModify,jdbcType=TIMESTAMP}
+    </insert>
+    <insert id="insertOrUpdateSelective" parameterType="com.cigarette.domain.Order">
+        <!--@mbg.generated-->
+        insert into mc_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="material != null">
+                material,
+            </if>
+            <if test="unit != null">
+                unit,
+            </if>
+            <if test="number != null">
+                `number`,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="shopSellerId != null">
+                shop_seller_id,
+            </if>
+            <if test="employeeId != null">
+                employee_id,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModify != null">
+                gmt_modify,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="material != null">
+                #{material,jdbcType=VARCHAR},
+            </if>
+            <if test="unit != null">
+                #{unit,jdbcType=VARCHAR},
+            </if>
+            <if test="number != null">
+                #{number,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="shopSellerId != null">
+                #{shopSellerId,jdbcType=INTEGER},
+            </if>
+            <if test="employeeId != null">
+                #{employeeId,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                id = #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="material != null">
+                material = #{material,jdbcType=VARCHAR},
+            </if>
+            <if test="unit != null">
+                unit = #{unit,jdbcType=VARCHAR},
+            </if>
+            <if test="number != null">
+                `number` = #{number,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                `status` = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="shopSellerId != null">
+                shop_seller_id = #{shopSellerId,jdbcType=INTEGER},
+            </if>
+            <if test="employeeId != null">
+                employee_id = #{employeeId,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <resultMap id="selectModels" type="com.cigarette.service.model.OrderModel">
+        <id property="id" column="id"/>
+        <result property="material" column="material"/>
+        <result property="unit" column="unit"/>
+        <result property="number" column="number"/>
+        <result property="status" column="status"/>
+        <result property="description" column="description"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="gmtModify" column="gmt_modify"/>
+        <result property="employee.id" column="empId"/>
+        <result property="employee.name" column="empName"/>
+        <result property="employee.tel" column="empTel"/>
+        <result property="shopSeller.id" column="sellerId"/>
+        <result property="shopSeller.name" column="sellerName"/>
+        <result property="shopSeller.tel" column="sellerTel"/>
+    </resultMap>
+    <select id="selectiveQuery" resultMap="selectModels" parameterType="com.cigarette.service.model.OrderQueryModel">
+        SELECT `order`.id,
+        `order`.material,
+        `order`.unit,
+        `order`.number,
+        `order`.status,
+        `order`.description,
+        `order`.gmt_create,
+        `order`.gmt_modify,
+        `employee`.id     empId,
+        `employee`.name   empName,
+        `employee`.tel    empTel,
+        `shopSeller`.id   sellerId,
+        `shopSeller`.name sellerName,
+        `shopSeller`.tel  sellerTel
+        FROM `mc_order` AS `order`
+        INNER JOIN `mc_user_info` AS `employee` ON `employee`.id = `order`.employee_id
+        INNER JOIN `mc_user_info` AS `shopSeller` ON `shopSeller`.id = `order`.shop_seller_id
+        <where>
+            <if test="id != null and id != ''">
+                and `order`.id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="material != null and material != ''">
+                and `order`.material = #{material,jdbcType=VARCHAR}
+            </if>
+            <if test="unit != null and unit != ''">
+                and `order`.unit = #{unit,jdbcType=VARCHAR}
+            </if>
+            <if test="number != null">
+                and `order`.number = #{number,jdbcType=INTEGER}
+            </if>
+            <if test="status != null">
+                and `order`.status = #{status,jdbcType=INTEGER}
+            </if>
+            <if test="description != null and description != '' != null and unit != ''">
+                and `order`.description like #{description,jdbcType=VARCHAR}
+            </if>
+            <if test="employeeId != null">
+                and `employee`.id = #{employeeId,jdbcType=INTEGER}
+            </if>
+            <if test="shopSellerId != null">
+                and `shopSeller`.id = #{shopSellerId,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByPrimaryKeys" resultType="java.lang.String">
+        SELECT id
+        FROM `mc_order`
+        WHERE id IN
+        <foreach collection="list" item="id" index="" close=")" open="(" separator=",">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+
+    <select id="selectMaterialsAndUnits" resultType="com.cigarette.service.model.MaterialModel">
+        select distinct material AS name,unit
+        from `mc_order`
+    </select>
+</mapper>
