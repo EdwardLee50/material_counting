@@ -16,6 +16,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class GlobalExceptionHandler {
             errorMessage = "未找到对应路径，请检查url是否正确";
         }
         logger.error("Default Exception:", ex);
-        return ApiRestResponse.create(EnumBusinessError.UNKNOWN_ERROR.getCode(), errorMessage);
+        return ApiRestResponse.error(EnumBusinessError.UNKNOWN_ERROR.getCode(), errorMessage);
     }
 
     @ExceptionHandler(BusinessException.class)
@@ -58,7 +59,16 @@ public class GlobalExceptionHandler {
                                                                  MethodArgumentNotValidException ex) {
         logger.error("MethodArgumentNotValid Exception:", ex);
         ApiRestResponse result = handleBindResult(ex.getBindingResult());
-        return ApiRestResponse.create(result.getCode(), result.getMessage());
+        return ApiRestResponse.error(result.getCode(), result.getMessage());
+    }
+
+    @ExceptionHandler(IOException.class)
+    @ResponseBody
+    public ApiRestResponse handleMethodArgumentNotValidException(HttpServletRequest httpServletRequest,
+                                                                 HttpServletResponse httpServletResponse,
+                                                                 IOException ex) {
+        logger.error("IOException Exception:", ex);
+        return ApiRestResponse.error(EnumBusinessError.FILE_NOT_EXISTS);
     }
 
     /**

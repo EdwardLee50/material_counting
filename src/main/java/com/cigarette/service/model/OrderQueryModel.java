@@ -50,4 +50,22 @@ public class OrderQueryModel {
 
     @ApiModelProperty(value = "")
     private Date end;
+
+    /**
+     * 排序关键字
+     */
+    String orderBy;
+
+    /**
+     * 排序顺序，ascending 、 descending 或 null
+     */
+    String order;
+
+    public void setOrder(String order) {
+        if("ascending".equals(order)){
+            this.order = "ASC";
+        }else if("descending".equals(order)){
+            this.order = "DESC";
+        }
+    }
 }

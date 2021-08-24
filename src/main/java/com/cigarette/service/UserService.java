@@ -14,9 +14,7 @@ import com.cigarette.service.model.UserModel;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import com.cigarette.domain.UserInfo;
 import com.cigarette.mapper.UserInfoMapper;
@@ -59,7 +57,7 @@ public class UserService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     public void batchRegister(List<UserModel> list) throws BusinessException {
-        if(list == null){
+        if (list == null) {
             throw new BusinessException(EnumBusinessError.PARAMETER_VALIDATION_ERROR);
         }
 
@@ -67,11 +65,14 @@ public class UserService {
         // 获取插入用户的手机集合
         List<String> tels = new ArrayList<>(list.size());
         for (int i = 0; i < list.size(); i++) {
-            tels.add(list.get(i).getTel());
+            String tel = list.get(i).getTel();
+            if (!tels.contains(tel)) {
+                tels.add(tel);
+            }
         }
         // 根据tels查userId
         List<Integer> ids = userInfoMapper.selectEnabledInfoIdByTels(tels);
-        if(ids.size() != 0){
+        if (ids.size() != 0) {
             throw new BusinessException(EnumBusinessError.USER_TEL_EXISTS);
         }
 
@@ -120,7 +121,7 @@ public class UserService {
     public String login(String tel, String password) throws BusinessException {
         // 获取userId，且应只有一个
         Integer id = userInfoMapper.selectEnabledInfoIdByTel(tel);
-        if(id == null){
+        if (id == null) {
             throw new BusinessException(EnumBusinessError.USER_NOT_EXISTS);
         }
         // 获取userPassword，判断密码是否匹配
@@ -141,13 +142,13 @@ public class UserService {
     public UserReturnVo getInfo(String token) throws BusinessException {
         // 用户确认，token中存在id，查询用户信息
         Object infoByJwtToken = JwtUtils.getInfoByJwtToken(token);
-        if(infoByJwtToken == null){
+        if (infoByJwtToken == null) {
             throw new BusinessException(EnumBusinessError.USER_PERMISSION_DENIED);
         }
         // 信息查询
         Integer id = Integer.parseInt(String.valueOf(infoByJwtToken));
         UserInfo userInfo = userInfoMapper.selectEnabledInfoByPrimaryKey(id);
-        if(userInfo == null){
+        if (userInfo == null) {
             throw new BusinessException(EnumBusinessError.USER_NOT_EXISTS);
         }
         UserModel userModel = ConvertUtils.convertInfoDoToModel(userInfo);
@@ -157,28 +158,26 @@ public class UserService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     public void updateInfo(Integer id, UserModel userModel) throws BusinessException {
-
-        // 获取修改时间
-        Date now = TimeUtils.getNowOfDateObj();
-        if(id == null){
+        if (id == null || userModel == null) {
             throw new BusinessException(EnumBusinessError.PARAMETER_VALIDATION_ERROR);
         }
 
-        // 判断用户是否存在
+        // 获取修改时间
+        Date now = TimeUtils.getNowOfDateObj();
+
+        // 判断修改用户是否存在
         UserInfo userInfo = userInfoMapper.selectEnabledInfoByPrimaryKey(id);
-        if(userInfo == null){
+        if (userInfo == null) {
             throw new BusinessException(EnumBusinessError.USER_NOT_EXISTS);
         }
-        // 判断同手机启用用户是否存在
-        Integer oldId = userInfoMapper.selectEnabledInfoIdByTel(userModel.getTel());
-        if (oldId != null) {
+
+        // 获取同手机号用户，判断是否存在其他用户为将要修改的手机号
+        UserInfo sameTelUser = userInfoMapper.selectEnabledInfoByTel(userModel.getTel());
+        if (sameTelUser != null && !sameTelUser.getId().equals(id)) {
             throw new BusinessException(EnumBusinessError.USER_TEL_EXISTS);
         }
 
         // 将model转为domain
-        if(userModel == null){
-            throw new BusinessException(EnumBusinessError.PARAMETER_VALIDATION_ERROR);
-        }
         userModel.setId(id);
         UserInfo insertInfo = ConvertUtils.convertModelToInfoDo(userModel, now);
         // 修改信息

@@ -45,7 +45,7 @@ public class WebLogAspect {
         log.info("HTTP_METHOD :" + request.getMethod());
         log.info("IP : " + request.getRemoteAddr());
         log.info("CLASS : " + joinPoint.getSignature().getDeclaringTypeName());
-        log.info("METHOD" + joinPoint.getSignature().getName());
+        log.info("METHOD : " + joinPoint.getSignature().getName());
         log.info("ARGS : " + Arrays.toString(joinPoint.getArgs()));
         // 若携带token，记录token
         String mcToken = request.getHeader("MC_TOKEN");

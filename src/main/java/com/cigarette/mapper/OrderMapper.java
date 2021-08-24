@@ -78,4 +78,8 @@ public interface OrderMapper {
     List<String> selectByPrimaryKeys(List<String> ids);
 
     List<MaterialModel> selectMaterialsAndUnits();
+
+    int countSelective(OrderQueryModel orderQueryModel);
+
+    List<OrderModel> selectiveQueryPage(@Param("orderQueryModel") OrderQueryModel orderQueryModel,@Param("limit") int limit,@Param("offset") int offset);
 }
