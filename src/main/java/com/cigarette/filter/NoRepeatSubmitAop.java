@@ -36,26 +36,27 @@ public class NoRepeatSubmitAop {
     }
 
     @Around("pointCut(noRepeatSubmit)")
-    public ApiRestResponse arround(ProceedingJoinPoint pjp, NoRepeatSubmit noRepeatSubmit) {
+    public ApiRestResponse arround(ProceedingJoinPoint pjp, NoRepeatSubmit noRepeatSubmit) throws BusinessException {
+
+        // 生成唯一key，由 userId + url + http method + args 组成
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+
+        Integer userId = (Integer) JwtUtils.getInfoByJwtToken(request);
+        if (userId == null) {
+            throw new BusinessException(EnumBusinessError.USER_NOT_LOGIN);
+        }
+        String url = request.getRequestURI().toString();
+        String method = request.getMethod();
+        String args = Arrays.toString(pjp.getArgs());
+        String key = userId + url + method + args;
+
         try {
-            // 生成唯一key，由 userId + url + http method + args 组成
-            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-            HttpServletRequest request = attributes.getRequest();
-
-            Integer userId = (Integer) JwtUtils.getInfoByJwtToken(request);
-            if(userId == null){
-                throw new BusinessException(EnumBusinessError.USER_NOT_LOGIN);
-            }
-            String url = request.getRequestURI().toString();
-            String method = request.getMethod();
-            String args = Arrays.toString(pjp.getArgs());
-
-            String key = userId + url + method + args;
-            synchronized (NoRepeatSubmitAop.class){
+            synchronized (NoRepeatSubmitAop.class) {
                 // 如果缓存中没有这个 key 则进行处理
                 if (!cache.containsKey(key)) {
                     // 添加 key
-                    cache.put(key,1);
+                    cache.put(key, 1);
                     Object o = pjp.proceed();
                     // 删除key
                     cache.remove(key);
@@ -67,7 +68,14 @@ public class NoRepeatSubmitAop {
             }
         } catch (Throwable e) {
             logger.error("An exception occurred while requesting duplicate submissions:" + e);
-            return ApiRestResponse.error(EnumBusinessError.REQUEST_DUPLICATE_SUBMISSION);
+            // 执行异常的 key 手动释放掉
+            cache.remove(key);
+            if (e instanceof BusinessException) {
+                BusinessException businessException = (BusinessException) e;
+                return ApiRestResponse.error(businessException.getCommonError());
+            } else {
+                return ApiRestResponse.error(EnumBusinessError.UNKNOWN_ERROR);
+            }
         }
     }
 }

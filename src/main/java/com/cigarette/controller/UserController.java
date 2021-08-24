@@ -67,6 +67,19 @@ public class UserController {
         return ApiRestResponse.success(returnMap);
     }
 
+    @PostMapping("/user/logout")
+    public ApiRestResponse logout(HttpServletRequest request) throws BusinessException {
+        // todo 登出，暂时实现为：判断用户是否有效后打印即可
+
+        if(request != null){
+            Integer infoByJwtToken = (Integer) JwtUtils.getInfoByJwtToken(request);
+            if(infoByJwtToken != null){
+                return ApiRestResponse.success();
+            }
+        }
+        return ApiRestResponse.error(EnumBusinessError.PARAMETER_VALIDATION_ERROR);
+    }
+
     @GetMapping("/user/info")
     public ApiRestResponse geInfo(HttpServletRequest request) throws BusinessException {// @RequestParam 默认是参数名
         // 需登录，暂时由global过滤器实现

@@ -2,6 +2,9 @@ package com.cigarette.mapper;
 
 import com.cigarette.domain.UserInfo;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -75,9 +78,9 @@ public interface UserInfoMapper {
 
     UserInfo selectEnabledInfoByTel(String tel);
 
-    List<Integer> selectEnabledInfoIdByTels(List<String> tels);
+    List<Integer> selectEnabledInfoIdByTels(@Param("list") List<String> tels);
 
-    List<UserInfo> selectEnabledInfoByTels(List<String> tels);
+    List<UserInfo> selectEnabledInfoByTels(@Param("list") List<String> tels);
 
     List<Integer> selectEnabledInfoIdByPrimaryKeys(List<Integer> ids);
 

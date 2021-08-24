@@ -484,6 +484,99 @@
             <if test="shopSellerId != null">
                 and `shopSeller`.id = #{shopSellerId,jdbcType=INTEGER}
             </if>
+            <if test="orderBy != null and orderBy != '' and order != null and order != ''">
+                order by ${orderBy} ${order}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectiveQueryPage" resultMap="selectModels">
+        SELECT `order`.id,
+        `order`.material,
+        `order`.unit,
+        `order`.number,
+        `order`.status,
+        `order`.description,
+        `order`.gmt_create,
+        `order`.gmt_modify,
+        `employee`.id     empId,
+        `employee`.name   empName,
+        `employee`.tel    empTel,
+        `shopSeller`.id   sellerId,
+        `shopSeller`.name sellerName,
+        `shopSeller`.tel  sellerTel
+        FROM `mc_order` AS `order`
+        INNER JOIN `mc_user_info` AS `employee` ON `employee`.id = `order`.employee_id
+        INNER JOIN `mc_user_info` AS `shopSeller` ON `shopSeller`.id = `order`.shop_seller_id
+        <where>
+            <if test="orderQueryModel.id != null and orderQueryModel.id != ''">
+                and `order`.id = #{orderQueryModel.id,jdbcType=VARCHAR}
+            </if>
+            <if test="orderQueryModel.material != null and orderQueryModel.material != ''">
+                and `order`.material = #{orderQueryModel.material,jdbcType=VARCHAR}
+            </if>
+            <if test="orderQueryModel.unit != null and orderQueryModel.unit != ''">
+                and `order`.unit = #{orderQueryModel.unit,jdbcType=VARCHAR}
+            </if>
+            <if test="orderQueryModel.number != null">
+                and `order`.number = #{orderQueryModel.number,jdbcType=INTEGER}
+            </if>
+            <if test="orderQueryModel.status != null">
+                and `order`.status = #{orderQueryModel.status,jdbcType=INTEGER}
+            </if>
+            <if test="orderQueryModel.description != null and orderQueryModel.description != '' != null and orderQueryModel.unit != ''">
+                and `order`.description like #{orderQueryModel.description,jdbcType=VARCHAR}
+            </if>
+            <if test="orderQueryModel.employeeId != null">
+                and `employee`.id = #{orderQueryModel.employeeId,jdbcType=INTEGER}
+            </if>
+            <if test="orderQueryModel.shopSellerId != null">
+                and `shopSeller`.id = #{orderQueryModel.shopSellerId,jdbcType=INTEGER}
+            </if>
+            <if test="orderQueryModel.orderBy != null and orderQueryModel.orderBy != '' and orderQueryModel.order != null and orderQueryModel.order != ''">
+                order by ${orderQueryModel.orderBy} ${orderQueryModel.order}
+            </if>
+            <if test="orderQueryModel.start != null and orderQueryModel.end != null">
+                and `order`.gmt_create between #{orderQueryModel.start} and date_add(#{orderQueryModel.end},interval 1 day)
+            </if>
+        </where>
+        limit #{limit},#{offset}
+    </select>
+
+    <select id="countSelective" parameterType="com.cigarette.service.model.OrderQueryModel"
+            resultType="java.lang.Integer">
+        SELECT count(`order`.id)
+        FROM `mc_order` AS `order`
+        INNER JOIN `mc_user_info` AS `employee` ON `employee`.id = `order`.employee_id
+        INNER JOIN `mc_user_info` AS `shopSeller` ON `shopSeller`.id = `order`.shop_seller_id
+        <where>
+            <if test="id != null and id != ''">
+                and `order`.id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="material != null and material != ''">
+                and `order`.material = #{material,jdbcType=VARCHAR}
+            </if>
+            <if test="unit != null and unit != ''">
+                and `order`.unit = #{unit,jdbcType=VARCHAR}
+            </if>
+            <if test="number != null">
+                and `order`.number = #{number,jdbcType=INTEGER}
+            </if>
+            <if test="status != null">
+                and `order`.status = #{status,jdbcType=INTEGER}
+            </if>
+            <if test="description != null and description != '' != null and unit != ''">
+                and `order`.description like #{description,jdbcType=VARCHAR}
+            </if>
+            <if test="employeeId != null">
+                and `employee`.id = #{employeeId,jdbcType=INTEGER}
+            </if>
+            <if test="shopSellerId != null">
+                and `shopSeller`.id = #{shopSellerId,jdbcType=INTEGER}
+            </if>
+            <if test="start != null and end != null">
+                and `order`.gmt_create between #{start} and date_add(#{end},interval 1 day)
+            </if>
         </where>
     </select>
 

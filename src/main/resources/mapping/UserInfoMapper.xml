@@ -319,7 +319,7 @@
         </foreach>
     </select>
 
-    <select id="selectEnabledInfoByTels" resultMap="BaseResultMap">
+    <select id="selectEnabledInfoByTels" resultMap="BaseResultMap" parameterType="java.util.List">
         select
         <include refid="Base_Column_List"/>
         from mc_user_info
@@ -357,4 +357,19 @@
         from mc_user_info
         where is_disabled = 0 and role = 2;
     </select>
+
+    <resultMap id="telIdMap" type="java.util.HashMap">
+        <result property="tel" column="tel" javaType="java.lang.String"/>
+        <result property="id" column="id" javaType="java.lang.Integer" />
+    </resultMap>
+    <select id="mapEnabledInfoIdByTels" resultMap="telIdMap" parameterType="java.util.List">
+        select tel,id
+        from mc_user_info
+        where is_disabled = 0
+        and tel in
+        <foreach collection="list" item="tel" separator="," open="(" close=")" index="">
+            #{tel,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+
 </mapper>
